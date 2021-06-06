@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model cliente {
+  id        Int       @id @default(autoincrement())
+  nombre    String?   @db.VarChar(50)
+  apellido  String?   @db.VarChar(50)
+  telefono  Int?
+  direccion String?   @db.VarChar(200)
+  abono     abono[]
+  eventos   eventos[]
+}
+
+model eventos {
+  id               Int                @id @default(autoincrement())
+  fecha            DateTime?          @db.Date
+  hora             DateTime?          @db.Time(6)
+  total            Int?
+  idpaquete        Int?
+  idcliente        Int?
+  celebracion      String?            @db.VarChar(100)
+  pagado           Boolean?
+  cliente          cliente?           @relation(fields: [idcliente], references: [id])
+  paqueteevento    paqueteevento?     @relation(fields: [idpaquete], references: [id])
+  gastoseventos    gastoseventos[]
+  pagos            pagos[]
+  servicioseventos servicioseventos[]
+}
+
+model paquete {
+  id             Int             @id @default(autoincrement())
+  nombre         String?         @db.VarChar(50)
+  adultos        Int?
+  ninios         Int?
+  precio         Int?
+  preciounitario Int?
+  paqueteevento  paqueteevento[]
+}
+
+model paqueteevento {
+  id        Int       @id @default(autoincrement())
+  adultos   Int?
+  ninios    Int?
+  total     Int?
+  idpaquete Int?
+  paquete   paquete?  @relation(fields: [idpaquete], references: [id])
+  eventos   eventos[]
+}
+
+model abono {
+  id        Int       @id @default(autoincrement())
+  fecha     DateTime? @db.Date
+  cantidad  Int?
+  idcliente Int?
+  idpagos   Int?
+  cliente   cliente?  @relation(fields: [idcliente], references: [id])
+  pagos     pagos?    @relation(fields: [idpagos], references: [id])
+}
+
+model empleados {
+  id               Int                @id @default(autoincrement())
+  nombre           String?            @db.VarChar(50)
+  apellido         String?            @db.VarChar(50)
+  direccion        String?            @db.VarChar(200)
+  telefono         Int?
+  descripcion      String?
+  idrol            Int?
+  rol              rol?               @relation(fields: [idrol], references: [id])
+  servicioseventos servicioseventos[]
+}
+
+model gastofijo {
+  id          Int      @id @default(autoincrement())
+  nombre      String?  @db.VarChar(5)
+  descripcion String?
+  total       Int?
+  activo      Boolean?
+  idmes       Int?
+}
+
+model gastoseventos {
+  id          Int      @id @default(autoincrement())
+  monto       Int?
+  motivo      String?  @db.VarChar(50)
+  descripcion String?
+  idmes       Int?
+  idevento    Int?
+  eventos     eventos? @relation(fields: [idevento], references: [id])
+  mes         mes?     @relation(fields: [idmes], references: [id])
+}
+
+model mes {
+  id            Int             @id @default(autoincrement())
+  mes           DateTime?       @db.Date
+  gastos        Int?
+  ganancias     Int?
+  gastoseventos gastoseventos[]
+}
+
+model pagos {
+  id          Int       @id @default(autoincrement())
+  restante    Int?
+  pagado      Int?
+  total       Int?
+  fechalimite DateTime? @db.Date
+  idevento    Int?
+  eventos     eventos?  @relation(fields: [idevento], references: [id])
+  abono       abono[]
+}
+
+model rol {
+  id        Int         @id @default(autoincrement())
+  rol       String?     @db.VarChar(50)
+  empleados empleados[]
+}
+
+model servicios {
+  id               Int                @id @default(autoincrement())
+  nombre           String?            @db.VarChar(100)
+  precio           Int?
+  descripcion      String?
+  servicioseventos servicioseventos[]
+}
+
+model servicioseventos {
+  id         Int        @id @default(autoincrement())
+  idevento   Int?
+  idservicio Int?
+  idempleado Int?
+  precio     Int?
+  empleados  empleados? @relation(fields: [idempleado], references: [id])
+  eventos    eventos?   @relation(fields: [idevento], references: [id])
+  servicios  servicios? @relation(fields: [idservicio], references: [id])
+}
