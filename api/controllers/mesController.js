@@ -1,23 +1,21 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const dfs = require("date-from-string");
 
-exports.postGastoEvento = (req, res, next) => {
+exports.postMes = (req, res, next) => {
   let datos = req.body;
-  console.log("hola");
-  prisma.gastoseventos
+  datos.mes = dfs.parse(req.body.mes);
+  prisma.mes
     .create({ data: datos })
     .then((result) => {
       res.statusCode = 202;
       res.send(result);
     })
-    .catch((err) => {
-      console.log(err);
-      res.send(err);
-    });
+    .catch((err) => {});
 };
 
-exports.getGastoEvento = (req, res, next) => {
-  prisma.gastoseventos
+exports.getMes = (req, res, next) => {
+  prisma.mes
     .findMany()
     .then((result) => {
       console.log(result);
@@ -29,9 +27,9 @@ exports.getGastoEvento = (req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-  const idGasto = parseInt(req.params.id);
-  prisma.gastoseventos
-    .findUnique({ where: { id: idGasto } })
+  const idMes = parseInt(req.params.id);
+  prisma.mes
+    .findUnique({ where: { id: idMes } })
     .then((result) => {
       res.statusCode = 202;
       res.send(result);
