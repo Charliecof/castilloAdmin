@@ -1,16 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const dfs = require("date-from-string");
 
-exports.postEventos = (req, res, next) => {
-  let datos = req.body;
-  const fecha = dfs.parse(req.body.fecha);
-  const hora = dfs.parse("2021-01-01T" + req.body.hora);
-  console.log(hora);
-  datos.fecha = fecha;
-  datos.hora = hora;
-  console.log(datos);
-  prisma.eventos
+exports.postRol = (req, res, next) => {
+  const datos = req.body;
+  prisma.rol
     .create({ data: datos })
     .then((result) => {
       res.statusCode = 202;
@@ -19,8 +12,8 @@ exports.postEventos = (req, res, next) => {
     .catch((err) => {});
 };
 
-exports.getEventos = (req, res, next) => {
-  prisma.eventos
+exports.getRol = (req, res, next) => {
+  prisma.rol
     .findMany()
     .then((result) => {
       console.log(result);
@@ -32,9 +25,9 @@ exports.getEventos = (req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-  const idEventos = parseInt(req.params.id);
-  prisma.eventos
-    .findUnique({ where: { id: idEventos } })
+  const idRol = parseInt(req.params.id);
+  prisma.rol
+    .findUnique({ where: { id: idRol } })
     .then((result) => {
       res.statusCode = 202;
       res.send(result);

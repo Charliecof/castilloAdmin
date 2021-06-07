@@ -2,15 +2,11 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const dfs = require("date-from-string");
 
-exports.postEventos = (req, res, next) => {
+exports.postAbono = (req, res, next) => {
   let datos = req.body;
   const fecha = dfs.parse(req.body.fecha);
-  const hora = dfs.parse("2021-01-01T" + req.body.hora);
-  console.log(hora);
   datos.fecha = fecha;
-  datos.hora = hora;
-  console.log(datos);
-  prisma.eventos
+  prisma.abono
     .create({ data: datos })
     .then((result) => {
       res.statusCode = 202;
@@ -19,8 +15,8 @@ exports.postEventos = (req, res, next) => {
     .catch((err) => {});
 };
 
-exports.getEventos = (req, res, next) => {
-  prisma.eventos
+exports.getAbono = (req, res, next) => {
+  prisma.abono
     .findMany()
     .then((result) => {
       console.log(result);
@@ -32,9 +28,9 @@ exports.getEventos = (req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-  const idEventos = parseInt(req.params.id);
-  prisma.eventos
-    .findUnique({ where: { id: idEventos } })
+  const idAbono = parseInt(req.params.id);
+  prisma.abono
+    .findUnique({ where: { id: idAbono } })
     .then((result) => {
       res.statusCode = 202;
       res.send(result);
