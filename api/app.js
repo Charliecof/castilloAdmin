@@ -18,6 +18,16 @@ const serviciosEventosRoutes = require("./routes/serviciosEventosRoutes");
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+
 app.use("/eventos", eventosRoutes);
 app.use("/paquetes", paquetesRoutes);
 app.use("/clientes", clientesRoutes);
@@ -32,4 +42,4 @@ app.use("/mes", mesRoutes);
 app.use("/paqueteeventos", paqueteEventoRoutes);
 app.use("/servicioseventos", serviciosEventosRoutes);
 
-app.listen(3000);
+app.listen(8000);

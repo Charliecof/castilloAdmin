@@ -1,37 +1,23 @@
-import logo from "./logo.svg";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import EventForm from "./views/NuevoEvento";
 import "./App.css";
-import axios from "axios";
 
 function App() {
-  const handleClick = () => {
-    axios
-      .get("https://pokeapi.co/api/v2/pokemon/")
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Hola Amigos
-        </a>
-        <button onClick={handleClick}>PokeApi</button>
-      </header>
-    </div>
+    <Router>
+      <div className="container">
+        <p>Navbar</p>
+        <Switch>
+          <Route path="/eventos/new" exact>
+            <EventForm />
+          </Route>
+          <Route path="/info" exact>
+            Pagina Info
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

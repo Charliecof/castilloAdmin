@@ -14,6 +14,19 @@ exports.getClientes = (req, res, next) => {
     });
 };
 
+exports.getClientesWhere = (req, res, next) => {
+  const data = parseInt(req.query.telefono);
+  console.log(data);
+  prisma.cliente
+    .findMany({ where: { telefono: data } })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
 exports.getById = (req, res, next) => {
   const idCliente = parseInt(req.params.id);
   prisma.cliente
