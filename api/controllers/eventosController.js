@@ -1,22 +1,51 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+
 const dfs = require("date-from-string");
 
 exports.postEventos = (req, res, next) => {
-  let datos = req.body;
   const fecha = dfs.parse(req.body.fecha);
   const hora = dfs.parse("2021-01-01T" + req.body.hora);
-  console.log(hora);
-  datos.fecha = fecha;
-  datos.hora = hora;
-  console.log(datos);
-  prisma.eventos
-    .create({ data: datos })
+  let total = 10;
+  prisma.paquete
+    .findUnique({ where: { id: req.body.idpaquete } })
     .then((result) => {
-      res.statusCode = 202;
-      res.send(result);
+      total = result.preciounitario * req.body.adultos;
+      prisma.paqueteevento
+        .create({
+          data: {
+            adultos: req.body.adultos,
+            ninios: req.body.ninios,
+            total: total,
+            idpaquete: req.body.idpaquete,
+          },
+        })
+        .then((result) => {
+          prisma.eventos
+            .create({
+              data: {
+                fecha: fecha,
+                hora: hora,
+                total: total,
+                idpaquete: result.id,
+                idcliente: req.body.idcliente,
+                celebracion: req.body.celebracion,
+                pagado: false,
+              },
+            })
+            .then((result) => {
+              res.statusCode = 202;
+              res.send(result);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {});
     })
-    .catch((err) => {});
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.getEventos = (req, res, next) => {

@@ -114,6 +114,6 @@ export default function AddCliente() {
       </div>
     );
   } else {
-    return <p>Hola</p>;
+    return <p className="has-text-success">Cliente Agregado Exitosamente!</p>;
   }
 }
