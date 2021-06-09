@@ -50,7 +50,7 @@ exports.postEventos = (req, res, next) => {
 
 exports.getEventos = (req, res, next) => {
   prisma.eventos
-    .findMany()
+    .findMany({ include: { cliente: true } })
     .then((result) => {
       console.log(result);
       res.send(result);

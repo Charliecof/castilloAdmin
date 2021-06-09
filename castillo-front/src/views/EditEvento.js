@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddCliente from "../Components/AddCliente";
 import axios from "axios";
 import axiosH from "../helpers/axiosHelp";
+import { useParams } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -21,6 +22,18 @@ export default function NuevoEvento() {
     idpaquete: 0,
   });
 
+  const { id } = useParams();
+
+  useEffect(() => {
+    axiosH
+      .get("/eventos/" + id)
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
   //functions
   const actualizar = (event) => {
     if (
@@ -45,7 +58,7 @@ export default function NuevoEvento() {
     }
   };
 
-  const buscarCliente = (event) => {
+  /* const buscarCliente = (event) => {
     console.log(event.target.value);
     axios
       .get("http://localhost:8000/clientes/where?telefono=" + telefono)
@@ -60,9 +73,9 @@ export default function NuevoEvento() {
       .catch((err) => {
         console.log(err);
       });
-  };
+  }; */
 
-  const crearEvento = () => {
+  const updateEvento = () => {
     axiosH
       .post("/eventos/", formData)
       .then((result) => {
@@ -75,7 +88,7 @@ export default function NuevoEvento() {
 
   return (
     <div className="section">
-      <h1 className="title">Nuevo Evento</h1>
+      <h1 className="title">Editar Evento</h1>
       <div className="columns">
         <div className="column">
           <div className="field is-horizontal">
@@ -185,41 +198,9 @@ export default function NuevoEvento() {
               </div>
             </div>
           </div>
-          <hr />
 
-          <h4 className="title">Buscar Cliente</h4>
-
-          <div className="field is-horizontal">
-            <div className="field-label is-normal">
-              <label className="label">Telefono Cliente</label>
-            </div>
-            <div className="field-body">
-              <div className="field">
-                <p className="control">
-                  <input
-                    onChange={(e) => {
-                      setTelefono(e.target.value);
-                    }}
-                    className="input"
-                    name="telefono"
-                    type="text"
-                  />
-                  <button className="button" onClick={buscarCliente}>
-                    Buscar
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {cliente == -1 && <AddCliente finished={true} />}
-          {cliente > 0 && (
-            <p className="has-text-success is-size-3 has-text-centered">
-              Cliente Encontrado
-            </p>
-          )}
-          <button className="button is-primary" onClick={crearEvento}>
-            Agregar Evento
+          <button className="button is-primary" onClick={updateEvento}>
+            Editar Evento
           </button>
         </div>
       </div>
