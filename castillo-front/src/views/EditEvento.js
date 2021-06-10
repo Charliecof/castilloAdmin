@@ -1,39 +1,43 @@
 import React, { useState, useEffect } from "react";
-import AddCliente from "../Components/AddCliente";
-import axios from "axios";
 import axiosH from "../helpers/axiosHelp";
 import { useParams } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function NuevoEvento() {
-  const [cliente, setCliente] = useState(0);
-  const [telefono, setTelefono] = useState(0);
-  const [formData, setData] = useState({
-    total: 7900,
-    pagado: false,
-    hora: 0,
-    fecha: "",
-    idcliente: "",
-    celebracion: "",
-    idpaquete: "",
-    adultos: 0,
-    ninios: 0,
-    idpaquete: 0,
+export default function EditEvento() {
+  const [formData, setForm] = useState({
+    paqueteevento: {
+      id: 0,
+      adultos: 0,
+      ninios: 0,
+      total: 0,
+      idpaquete: 0,
+    },
   });
+
+  const [paquetes, setPaquetes] = useState({});
 
   const { id } = useParams();
 
   useEffect(() => {
-    axiosH
-      .get("/eventos/" + id)
-      .then((result) => {
-        console.log(result.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+    if (formData) {
+      axiosH
+        .get("/eventos/" + id)
+        .then((result) => {
+          const aux = { ...result.data };
+          const hours = new Date(result.data.hora).getUTCHours();
+          const newFecha = result.data.fecha.split("T", 1)[0];
+          aux.hora = hours;
+          aux.fecha = newFecha;
+          console.log(aux);
+          setForm({ ...aux });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
   //functions
   const actualizar = (event) => {
     if (
@@ -41,43 +45,41 @@ export default function NuevoEvento() {
       event.target.name == "adultos" ||
       event.target.name == "idpaquete"
     ) {
-      setData({
+      setForm({
         ...formData,
-        [event.target.name]: parseInt(event.target.value),
+        paqueteevento: {
+          ...formData.paqueteevento,
+          [event.target.name]: event.target.value,
+        },
       });
     } else if (event.target.name == "hora") {
-      setData({
+      setForm({
         ...formData,
-        [event.target.name]: event.target.value + ":00:00.00Z",
+        [event.target.name]: event.target.value,
       });
     } else {
-      setData({
+      setForm({
         ...formData,
         [event.target.name]: event.target.value,
       });
     }
   };
 
-  /* const buscarCliente = (event) => {
-    console.log(event.target.value);
-    axios
-      .get("http://localhost:8000/clientes/where?telefono=" + telefono)
+  const updateEvento = () => {
+    axiosH
+      .patch("/eventos/" + id, formData)
       .then((result) => {
-        if (result.data[0]) {
-          setCliente(result.data[0].id);
-          setData({ ...formData, ["idcliente"]: cliente });
-        } else {
-          setCliente(-1);
-        }
+        console.log(result);
+        setForm(result);
       })
       .catch((err) => {
         console.log(err);
       });
-  }; */
+  };
 
-  const updateEvento = () => {
+  const deleteEvento = () => {
     axiosH
-      .post("/eventos/", formData)
+      .delete("/eventos/" + id)
       .then((result) => {
         console.log(result);
       })
@@ -100,6 +102,7 @@ export default function NuevoEvento() {
                 <p className="control">
                   <input
                     onChange={actualizar}
+                    value={formData.fecha}
                     className="input"
                     name="fecha"
                     type="date"
@@ -118,6 +121,8 @@ export default function NuevoEvento() {
                 <p className="control">
                   <input
                     onChange={actualizar}
+                    placeholder={formData.hora}
+                    value={formData.hora}
                     className="input"
                     name="hora"
                     type="adultos"
@@ -136,6 +141,8 @@ export default function NuevoEvento() {
                 <p className="control">
                   <input
                     onChange={actualizar}
+                    placeholder={formData.celebracion}
+                    value={formData.celebracion}
                     className="input"
                     name="celebracion"
                     type="text"
@@ -175,6 +182,7 @@ export default function NuevoEvento() {
                     name="adultos"
                     type="adultos"
                     onChange={actualizar}
+                    value={formData.paqueteevento.adultos}
                   />
                 </p>
               </div>
@@ -193,15 +201,24 @@ export default function NuevoEvento() {
                     name="ninios"
                     type="number "
                     onChange={actualizar}
+                    value={formData.paqueteevento.ninios}
                   />
                 </p>
               </div>
             </div>
           </div>
 
-          <button className="button is-primary" onClick={updateEvento}>
-            Editar Evento
-          </button>
+          <div className="mt-5 has-text-right">
+            <button
+              className=" mr-2   button is-primary"
+              onClick={updateEvento}
+            >
+              Editar Evento
+            </button>
+            <button className=" ml-2 button is-danger" onClick={deleteEvento}>
+              Eliminar
+            </button>
+          </div>
         </div>
       </div>
     </div>

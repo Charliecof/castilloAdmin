@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AddCliente from "../Components/AddCliente";
 import axios from "axios";
 import axiosH from "../helpers/axiosHelp";

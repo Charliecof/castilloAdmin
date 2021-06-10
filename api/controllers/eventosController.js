@@ -7,9 +7,11 @@ exports.postEventos = (req, res, next) => {
   const fecha = dfs.parse(req.body.fecha);
   const hora = dfs.parse("2021-01-01T" + req.body.hora);
   let total = 10;
+  console.log(req.body);
   prisma.paquete
     .findUnique({ where: { id: req.body.idpaquete } })
     .then((result) => {
+      console.log(result);
       total = result.preciounitario * req.body.adultos;
       prisma.paqueteevento
         .create({
@@ -48,6 +50,10 @@ exports.postEventos = (req, res, next) => {
     });
 };
 
+exports.patchEventos = (req, res, next) => {
+  console.log(req.body);
+};
+
 exports.getEventos = (req, res, next) => {
   prisma.eventos
     .findMany({ include: { cliente: true } })
@@ -60,10 +66,24 @@ exports.getEventos = (req, res, next) => {
     });
 };
 
+exports.deleteEventos = (req, res, next) => {
+  console.log(req.params.id);
+  prisma.eventos
+    .delete({ where: { id: parseInt(req.params.id) } })
+    .then((result) => {
+      res.statusCode = 202;
+      res.send({ status: "deleted" });
+    })
+    .catch((err) => {
+      res.statusCode = 505;
+      res.send({ status: "failed" });
+    });
+};
+
 exports.getById = (req, res, next) => {
   const idEventos = parseInt(req.params.id);
   prisma.eventos
-    .findUnique({ where: { id: idEventos } })
+    .findUnique({ where: { id: idEventos }, include: { paqueteevento: true } })
     .then((result) => {
       res.statusCode = 202;
       res.send(result);

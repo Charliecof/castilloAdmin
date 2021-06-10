@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NuevoEvento from "./views/NuevoEvento";
 import EditEvento from "./views/EditEvento";
 import ShowEventos from "./views/ShowEventos";
@@ -14,14 +14,11 @@ function App() {
           <Route path="/eventos" exact>
             <ShowEventos />
           </Route>
-          <Route path="/" exact>
-            <Link to="/eventos/edit/2">Hola</Link>
+          <Route path="/eventos/edit/:id" exact>
+            <EditEvento />
           </Route>
           <Route path="/eventos/new" exact>
             <NuevoEvento />
-          </Route>
-          <Route path="/eventos/edit/:id" exact>
-            <EditEvento />
           </Route>
           <Route path="/info" exact>
             Pagina Info
