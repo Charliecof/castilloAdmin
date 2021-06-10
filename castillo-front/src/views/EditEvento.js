@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axiosH from "../helpers/axiosHelp";
 import { useParams } from "react-router-dom";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 export default function EditEvento() {
   const [formData, setForm] = useState({
     paqueteevento: {
@@ -14,8 +12,6 @@ export default function EditEvento() {
       idpaquete: 0,
     },
   });
-
-  const [paquetes, setPaquetes] = useState({});
 
   const { id } = useParams();
 
@@ -47,10 +43,8 @@ export default function EditEvento() {
     ) {
       setForm({
         ...formData,
-        paqueteevento: {
-          ...formData.paqueteevento,
-          [event.target.name]: event.target.value,
-        },
+
+        [event.target.name]: event.target.value,
       });
     } else if (event.target.name == "hora") {
       setForm({
@@ -70,7 +64,7 @@ export default function EditEvento() {
       .patch("/eventos/" + id, formData)
       .then((result) => {
         console.log(result);
-        setForm(result);
+        //setForm(result);
       })
       .catch((err) => {
         console.log(err);

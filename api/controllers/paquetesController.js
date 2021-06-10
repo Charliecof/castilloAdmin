@@ -3,14 +3,31 @@ const prisma = new PrismaClient();
 
 exports.postPaquete = (req, res, next) => {
   const datos = req.body;
-  console.log(datos);
   prisma.paquete
     .create({ data: datos })
     .then((result) => {
       res.statusCode = 202;
-      res.send(result);
+      res.send({ ...result, status: true });
+      console.log(result);
     })
-    .catch((err) => {});
+    .catch((err) => {
+      res.statusCode = 505;
+      res.send({ status: false });
+    });
+};
+
+exports.patchPaquete = (req, res, next) => {
+  prisma.paquete
+    .update({ where: { id: req.body.id }, data: req.body })
+    .then((result) => {
+      const aux = { ...result, status: true };
+      res.statusCode = 202;
+      res.send(aux);
+    })
+    .catch((err) => {
+      res.statusCode = 505;
+      res.send(err);
+    });
 };
 
 exports.getPaquetes = (req, res, next) => {

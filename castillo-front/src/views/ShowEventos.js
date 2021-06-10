@@ -24,7 +24,7 @@ export default function ShowEventos() {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
   return (
     <div>
       <DataTable

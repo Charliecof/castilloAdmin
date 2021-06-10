@@ -51,7 +51,37 @@ exports.postEventos = (req, res, next) => {
 };
 
 exports.patchEventos = (req, res, next) => {
-  console.log(req.body);
+  const data = req.body;
+  const idData = parseInt(req.params.id);
+  const hora = dfs.parse("2021-01-01T" + req.body.hora + ":00:00.000Z");
+  data.paqueteevento.adultos = parseInt(data.paqueteevento.adultos);
+  data.paqueteevento.ninios = parseInt(data.paqueteevento.ninios);
+  data.fecha = dfs.parse(data.fecha);
+  data.hora = hora;
+  const aux = { ...data.paqueteevento };
+  prisma.paquete
+    .findUnique({ where: { id: data.paqueteevento.idpaquete } })
+    .then((result) => {
+      data.paqueteevento.total =
+        result.preciounitario * data.paqueteevento.adultos;
+      data.total = result.preciounitario * data.paqueteevento.adultos;
+      delete data["paqueteevento"];
+      aux.total = aux.adultos * result.preciounitario;
+      prisma.eventos
+        .update({
+          where: { id: idData },
+          data: data,
+        })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.getEventos = (req, res, next) => {
@@ -85,8 +115,15 @@ exports.getById = (req, res, next) => {
   prisma.eventos
     .findUnique({ where: { id: idEventos }, include: { paqueteevento: true } })
     .then((result) => {
-      res.statusCode = 202;
-      res.send(result);
+      if (result) {
+        res.statusCode = 202;
+        res.send(result);
+      } else {
+        throw console.error("error");
+      }
     })
-    .catch((err) => {});
+    .catch((err) => {
+      res.statusCode = 505;
+      res.send({ status: "failed" });
+    });
 };

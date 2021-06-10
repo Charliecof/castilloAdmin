@@ -8,4 +8,6 @@ router.get("/:id", paquetesController.getById);
 
 router.post("/", paquetesController.postPaquete);
 
+router.patch("/", paquetesController.patchPaquete);
+
 module.exports = router;

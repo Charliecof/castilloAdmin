@@ -204,9 +204,11 @@ export default function NuevoEvento() {
                     name="telefono"
                     type="text"
                   />
-                  <button className="button" onClick={buscarCliente}>
-                    Buscar
-                  </button>
+                  <div className="mt-3 has-text-right">
+                    <button className="button" onClick={buscarCliente}>
+                      Buscar
+                    </button>
+                  </div>
                 </p>
               </div>
             </div>
@@ -218,9 +220,11 @@ export default function NuevoEvento() {
               Cliente Encontrado
             </p>
           )}
-          <button className="button is-primary" onClick={crearEvento}>
-            Agregar Evento
-          </button>
+          <div className="has-text-right">
+            <button className="button is-primary" onClick={crearEvento}>
+              Agregar Evento
+            </button>
+          </div>
         </div>
       </div>
     </div>

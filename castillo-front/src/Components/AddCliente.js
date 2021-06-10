@@ -108,9 +108,11 @@ export default function AddCliente() {
           </div>
         </div>
 
-        <button className="button" onClick={agregar}>
-          Agregar
-        </button>
+        <div className="has-text-right mt-3 mb-3">
+          <button className="button" onClick={agregar}>
+            Agregar Cliente
+          </button>
+        </div>
       </div>
     );
   } else {
