@@ -7,7 +7,7 @@ export default function Inicio() {
   return (
     <div className="section">
       <div className="columns">
-        <div className="column is-4">
+        <div className="column is-3">
           <button
             onClick={() => {
               history.push("/eventos/");
@@ -17,7 +17,7 @@ export default function Inicio() {
             Eventos
           </button>
         </div>
-        <div className="column is-4">
+        <div className="column is-3">
           <button
             onClick={() => {
               history.push("/abonos/new");
@@ -27,7 +27,7 @@ export default function Inicio() {
             Abonos
           </button>
         </div>
-        <div className="column is-4">
+        <div className="column is-3">
           <button
             onClick={() => {
               history.push("/paquetes/");
@@ -35,6 +35,17 @@ export default function Inicio() {
             className="button is-primary"
           >
             Paquetes
+          </button>
+        </div>
+
+        <div className="column is-3">
+          <button
+            onClick={() => {
+              history.push("/clientes/");
+            }}
+            className="button is-primary"
+          >
+            Clientes
           </button>
         </div>
       </div>

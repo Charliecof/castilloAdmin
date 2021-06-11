@@ -16,6 +16,7 @@ const mesRoutes = require("./routes/mesRoutes");
 const paqueteEventoRoutes = require("./routes/paqueteEventoRoutes");
 const serviciosEventosRoutes = require("./routes/serviciosEventosRoutes");
 const authRoutes = require("./routes/authRoutes");
+const gananciasRoutes = require("./routes/gananciasRoutes");
 
 app.use(express.json());
 
@@ -43,4 +44,5 @@ app.use("/mes", mesRoutes);
 app.use("/paqueteeventos", paqueteEventoRoutes);
 app.use("/servicioseventos", serviciosEventosRoutes);
 app.use("/auth", authRoutes);
+app.use("/ganancia", gananciasRoutes);
 app.listen(8000);

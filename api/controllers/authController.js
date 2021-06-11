@@ -59,3 +59,30 @@ exports.login = (req, res, next) => {
     })
     .catch((err) => {});
 };
+
+exports.patchUsuario = (req, res, next) => {
+  console.log(req.body);
+  const old = req.body.correoviejo;
+  pool
+    .promise()
+    .execute("SELECT * from usuario where correo = ? ", [old])
+    .then(([rows, fields]) => {
+      console.log(rows);
+      pool
+        .promise()
+        .execute(
+          "UPDATE usuario SET nombre= ?,apellido= ?,correo=? where id = ? ",
+          [req.body.nombre, req.body.apellido, req.body.correonuevo, rows[0].id]
+        )
+        .then(([rows2, fields2]) => {
+          console.log(rows2);
+          res.send({ message: "updated" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

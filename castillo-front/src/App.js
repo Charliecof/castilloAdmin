@@ -13,6 +13,9 @@ import Inicio from "./views/Inicio";
 import ShowClientes from "./views/ShowClientes";
 import Login from "./views/Login";
 import Register from "./views/Register";
+import EditUser from "./views/EditUsert";
+import Ganancia from "./views/Ganancia";
+
 import "./App.css";
 
 function App() {
@@ -57,6 +60,14 @@ function App() {
 
             <Route path="/abonos/new" exact>
               <NuevoAbono />
+            </Route>
+
+            <Route path="/usuario/edit">
+              <EditUser />
+            </Route>
+
+            <Route path="/ganancias" exact>
+              <Ganancia />
             </Route>
 
             <Route path="/" exact>

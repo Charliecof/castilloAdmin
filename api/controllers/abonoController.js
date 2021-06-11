@@ -15,7 +15,9 @@ exports.postAbono = (req, res, next) => {
           prisma.$queryRaw`COMMIT;`
             .then((result) => {
               prisma.$queryRaw`CALL transfer(${req.body.idpagos},${req.body.cantidad})`
-                .then((result) => {})
+                .then((result) => {
+                  res.send({ message: true });
+                })
                 .catch((err) => {});
             })
             .catch((err) => {});

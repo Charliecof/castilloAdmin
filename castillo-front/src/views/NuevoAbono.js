@@ -39,7 +39,6 @@ export default function NuevoAbono() {
     axiosH
       .post("/abonos/", formData)
       .then((result) => {
-        setStatus(result.data.status);
         setStatus(true);
         console.log(result);
       })
