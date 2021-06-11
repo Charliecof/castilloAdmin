@@ -1,5 +1,5 @@
 import React from "react";
-
+import logo from "../logo.png";
 export default function Navbar() {
   return (
     <nav
@@ -8,12 +8,8 @@ export default function Navbar() {
       aria-label="main navigation"
     >
       <div className="navbar-brand">
-        <a className="navbar-item" href="https://bulma.io">
-          <img
-            src="https://bulma.io/images/bulma-logo.png"
-            width="112"
-            height="28"
-          />
+        <a className="navbar-item" href="/">
+          <img src={logo} style={{ width: "50px" }} />
         </a>
 
         <a
@@ -31,11 +27,18 @@ export default function Navbar() {
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div className="navbar-start">
-          <a className="navbar-item"> Inicio</a>
+          <a className="navbar-item" href="/">
+            {" "}
+            Inicio
+          </a>
 
-          <a className="navbar-item">Eventos</a>
+          <a className="navbar-item" href="/eventos">
+            Eventos
+          </a>
 
-          <a className="navbar-item">Paquetes</a>
+          <a className="navbar-item" href="/paquetes">
+            Paquetes
+          </a>
         </div>
 
         <div className="navbar-end">

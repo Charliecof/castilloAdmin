@@ -33,7 +33,6 @@ export default function ShowEventos() {
         title="Eventos"
         striped={true}
         pointerOnHover={true}
-        pagination={true}
         onRowDoubleClicked={(e) => {
           history.push("/eventos/edit/" + e.id);
         }}

@@ -11,6 +11,8 @@ import EditCliente from "./views/EditCliente";
 import NuevoAbono from "./views/NuevoAbono";
 import Inicio from "./views/Inicio";
 import ShowClientes from "./views/ShowClientes";
+import Login from "./views/Login";
+import Register from "./views/Register";
 import "./App.css";
 
 function App() {
@@ -20,6 +22,12 @@ function App() {
       <Router>
         <div className="container">
           <Switch>
+            <Route path="/login" exact>
+              <Login></Login>
+            </Route>
+            <Route path="/register" exact>
+              <Register />
+            </Route>
             <Route path="/eventos" exact>
               <ShowEventos />
             </Route>
