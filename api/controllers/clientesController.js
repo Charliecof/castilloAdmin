@@ -6,7 +6,6 @@ exports.getClientes = (req, res, next) => {
     .findMany()
     .then((result) => {
       console.log(result[0].telefono);
-
       res.satusCode = 202;
       res.send(result);
     })
