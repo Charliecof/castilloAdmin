@@ -13,7 +13,6 @@ model cliente {
   apellido  String?   @db.VarChar(50)
   telefono  Int?
   direccion String?   @db.VarChar(200)
-  abono     abono[]
   eventos   eventos[]
 }
 
@@ -54,13 +53,11 @@ model paqueteevento {
 }
 
 model abono {
-  id        Int       @id @default(autoincrement())
-  fecha     DateTime? @db.Date
-  cantidad  Int?
-  idcliente Int?
-  idpagos   Int?
-  cliente   cliente?  @relation(fields: [idcliente], references: [id])
-  pagos     pagos?    @relation(fields: [idpagos], references: [id])
+  id       Int       @id @default(autoincrement())
+  fecha    DateTime? @db.Date
+  cantidad Int?
+  idpagos  Int?
+  pagos    pagos?    @relation(fields: [idpagos], references: [id])
 }
 
 model empleados {

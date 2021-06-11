@@ -6,6 +6,8 @@ router.get("/", clientesController.getClientes);
 router.get("/where", clientesController.getClientesWhere);
 router.get("/:id", clientesController.getById);
 
+router.patch("/", clientesController.patchCliente);
+
 router.post("/", clientesController.postCliente);
 
 module.exports = router;

@@ -8,6 +8,9 @@ import Navbar from "./Components/Navbar";
 import NuevoPaquete from "./views/NuevoPaquete";
 import ShowPaquetes from "./views/ShowPaquetes";
 import EditCliente from "./views/EditCliente";
+import NuevoAbono from "./views/NuevoAbono";
+import Inicio from "./views/Inicio";
+import ShowClientes from "./views/ShowClientes";
 import "./App.css";
 
 function App() {
@@ -37,15 +40,19 @@ function App() {
               <NuevoPaquete />
             </Route>
 
-            <Route path="/clientes/edit/:id">
+            <Route path="/clientes" exact>
+              <ShowClientes />
+            </Route>
+            <Route path="/clientes/edit/:id" exact>
               <EditCliente />
             </Route>
 
-            <Route path="/info" exact>
-              Pagina Info
+            <Route path="/abonos/new" exact>
+              <NuevoAbono />
             </Route>
-            <Route path="/">
-              <p>Error</p>
+
+            <Route path="/" exact>
+              <Inicio />
             </Route>
           </Switch>
         </div>

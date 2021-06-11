@@ -16,8 +16,20 @@ exports.postPagos = (req, res, next) => {
 };
 
 exports.getPagos = (req, res, next) => {
-  prisma.pagos
-    .findMany()
+  prisma.eventos
+    .findMany({
+      where: {
+        pagado: false,
+      },
+      include: {
+        pagos: true,
+        cliente: {
+          select: {
+            nombre: true,
+          },
+        },
+      },
+    })
     .then((result) => {
       console.log(result);
       res.send(result);

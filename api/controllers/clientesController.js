@@ -5,6 +5,8 @@ exports.getClientes = (req, res, next) => {
   prisma.cliente
     .findMany()
     .then((result) => {
+      console.log(result[0].telefono);
+
       res.satusCode = 202;
       res.send(result);
     })
@@ -51,6 +53,20 @@ exports.postCliente = (req, res, next) => {
     })
     .catch((err) => {
       res.satusCode = 505;
+      res.send(err);
+    });
+};
+
+exports.patchCliente = (req, res, next) => {
+  prisma.cliente
+    .update({ where: { id: req.body.id }, data: req.body })
+    .then((result) => {
+      const aux = { ...result, status: true };
+      res.satusCode = 202;
+      res.send(aux);
+    })
+    .catch((err) => {
+      res.statusCode = 505;
       res.send(err);
     });
 };
